@@ -32,7 +32,7 @@
             >
                 <li class="nav-item">
                     <a href="gallery.html" class="nav-link">
-                        <i class="nav-icon far fa-image"></i>
+                        <i class="nav-icon fa fa-columns"></i>
                         <p>Dashboard</p>
                     </a>
                 </li>
