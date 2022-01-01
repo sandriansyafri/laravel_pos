@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>AdminLTE 3 | Dashboard</title>
   @include('layouts.backend.parts.style')
+  @stack('css')
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -46,5 +47,6 @@
 <!-- ./wrapper -->
 
 @include('layouts.backend.parts.script')
+@stack('js')
 </body>
 </html>

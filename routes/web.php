@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\DatatableController;
+use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\RegisterController;
@@ -17,8 +19,13 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware(['auth'])->group(function () {
-      Route::view('/', 'dashboard')->name('dashboard');
+      Route::view('/', 'page.dashboard')->name('dashboard');
+      Route::resource('kategori', KategoriController::class);
       Route::post('logout', LogoutController::class)->name('logout');
+
+      Route::prefix('data')->group(function () {
+            Route::get('kategori', [DatatableController::class, 'kategori'])->name('data.kategori');
+      });
 });
 
 Route::middleware(['guest'])->group(function () {
