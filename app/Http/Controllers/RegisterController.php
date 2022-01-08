@@ -22,7 +22,7 @@ class RegisterController extends Controller
         User::create($request->all());
 
         return redirect()->route('login')->with([
-            'status' => 'register success',
+            'status_register' => 'register success',
             'email' => $request->email
         ]);
     }

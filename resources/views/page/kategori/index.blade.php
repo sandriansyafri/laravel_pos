@@ -4,24 +4,38 @@
 @endsection @section('content')
 <div class="row">
     <div class="col">
-        <button onclick="addKategori(`{{ route('kategori.index') }}`)" type="button" class="btn btn-primary mb-3">
-            <i class="fa fa-plus-circle mr-1"></i> Tambah Kategori
-        </button>
+        <div>
+            <button onclick="addKategori(`{{ route('kategori.index') }}`)" type="button" class="btn btn-primary mb-3">
+                <i class="fa fa-plus-circle mr-1"></i> Tambah Kategori
+            </button>
+            
+            <button onclick="deleteAll(event,`{{ route('kategori.deleteAll') }}`)" type="button" class="btn btn-danger mb-3">
+                <i class="fa fa-trash mr-1"></i> Delete All
+            </button>
+
+        </div>
         <div class="card">
             <div class="card-header">
                 <h3 class="card-title">Table</h3>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
-                <table id="table"  class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th class="text-center" style="width: 10px">#</th>
-                            <th class="text-center">Nama Kategori</th>
-                            <th class="text-center">Action</th>
-                        </tr>
-                    </thead>
-                </table>
+              
+                <form id="form-checklistAll" action="" method="post">
+                    @csrf
+                    <table id="table-kategori"  class="table tabel-sm table-striped">
+                        <thead>
+                            <tr>
+                                <th class="text-center" style="width: 10px">
+                                    <input type="checkbox" name="checklistAll" id="">
+                                </th>
+                                <th class="text-center" style="width: 10px">#</th>
+                                <th class="text-center">Nama Kategori</th>
+                                <th class="text-center">Action</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </form>
             </div>
             <!-- /.card-body -->
         </div>
@@ -51,27 +65,15 @@
 @push('js')
     <script>
         let table;
-        $(document).ready(function(){
-            table = $('#table').DataTable({
-            ajax: {
-                url : "{{ route('data.kategori') }}",
-                type : 'get'
-            },
-            columns: [
-                {class: 'text-center', data: 'DT_RowIndex', orderable: false, searchable: false},
-                {class: 'text-center', data: 'nama_kategori'},
-                {class: 'text-center', data: 'action'},
-            ]
-        });
-        })
 
-       function submitForm(e){
+        $('#form-kategori').submit(function(e){
             e.preventDefault();
-            $.ajax({
-                url : $('form').attr('action'),
-                data: $('form').serialize(),
-                type : 'post'
-            })
+
+            const form = $('#form-kategori')
+            let url = form.attr('action');
+            let data = form.serialize();
+
+            $.post(url,data)
             .done((res) => {
                 if(res.ok){
                     $('.modal').modal('hide')
@@ -80,23 +82,33 @@
                 }
             })
             .fail((res) =>{
-                let errors = res.responseJSON.errors;
-                if(errors){
-                    $('input[name=nama_kategori]').after(`<small class="text-danger">${errors.nama_kategori[0]}</small>`)
-                }
+                alert('tidak dapat menyimpan data')
             })
-       }
 
+        })
 
-
+        $(document).ready(function(){
+            table = $('#table-kategori').DataTable({
+            ajax: {
+                url : "{{ route('data.kategori') }}",
+                type : 'get'
+            },
+            columns: [
+                {class: 'text-center', data: 'checklist',orderable: false, searchable: false},
+                {class: 'text-center', data: 'DT_RowIndex', orderable: false, searchable: false},
+                {class: 'text-center', data: 'nama_kategori'},
+                {class: 'text-center', data: 'action'},
+            ]
+        });
+        })
 
         function addKategori(url){
             $('.modal').modal();
             $('.modal').on('shown.bs.modal', function () {
                 $('input[name=nama_kategori]').focus()
             })
-            $('form').attr('action',url)
-            $('small.text-danger').detach();
+            $('#form-kategori').attr('action',url)
+            $('#form-kategori')[0].reset()
             $('input[name=_method]').val('post')
             $('input[name=nama_kategori]').val('')
             $('.modal-title').text('Tambah Kategori')
@@ -113,26 +125,35 @@
                 })
 
             $('.modal').modal();
-            $('form').attr('action',url)
+            $('#form-kategori').attr('action',url)
             $('input[name=_method]').val('put')
             $('.modal').on('shown.bs.modal', function () {
                 $('input[name=nama_kategori]').focus()
             })
-            $('small.text-danger').detach();
             $('.modal-title').text('Edit Kategori')
             $('#btn-action').text('Update')
             $('#btn-action').removeClass('btn-primary').addClass('btn-danger')
         }
 
-        function deleteKategori(e,url){
+        $('[name=checklistAll]').change(function(e){
+            $(':checkbox').attr('checked',this.checked)
+        })
+
+        function deleteAll(e,url){
             e.preventDefault();
-            if(confirm('delete?')){
+            let checklist =  $('input.form-check-input:checked').length;
+            if(checklist < 1){
+                alert('no item selected')
+                return;
+            }
+            if(confirm('delete selected item?')){
                 $.ajax({
+                    url,
                     headers : {
                         'X_CSRF_TOKEN' : "{{ csrf_token() }}"
                     },
-                    url : url,
                     type : 'delete',
+                    data: $('#form-checklistAll').serialize()
                 })
                 .done((res) => {
                     if(res.ok){
@@ -143,6 +164,24 @@
             }
         }
 
+        function deleteKategori(e,url){
+            e.preventDefault();
+            if(confirm('delete?')){
+                $.ajax({
+                    url,
+                    headers : {
+                        'X_CSRF_TOKEN' : "{{ csrf_token() }}"
+                    },
+                    type : 'delete',
+                })
+                .done((res) => {
+                    if(res.ok){
+                        alert(res.message)
+                        table.ajax.reload();
+                    }
+                })
+            }
+        }
     </script>
 @endpush
 

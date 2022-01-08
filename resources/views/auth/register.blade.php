@@ -7,7 +7,7 @@
 @section('content')
 <div class="register-box">
   <div class="register-logo">
-    <a href="../../index2.html"><b>Admin</b>LTE</a>
+    <a href=""><b>POS</b>PROJECT</a>
   </div>
   <div class="card">
     <div class="card-body register-card-body">

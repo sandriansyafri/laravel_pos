@@ -17,8 +17,7 @@ class KategoriController extends Controller
 
     public function index()
     {
-        $kategoris = Kategori::all();
-        return view('page.kategori.index', compact(['kategoris']));
+        return view('page.kategori.index');
     }
 
     /**
@@ -118,6 +117,18 @@ class KategoriController extends Controller
         $kategori->delete();
         return response()->json([
             'ok' => true,
+            'message' => 'deleted'
+        ]);
+    }
+
+    public function deleteAll(Request $request)
+    {
+        foreach ($request['checklist'] as $id) :
+            Kategori::find($id)->delete();
+        endforeach;
+
+        return response()->json([
+            'ok' => 'true',
             'message' => 'deleted'
         ]);
     }

@@ -7,14 +7,21 @@
 @section('content')
 <div class="login-box">
       <div class="login-logo">
-        <a href="../../index2.html"><b>Admin</b>LTE</a>
+        <a href=""><b>POS</b>PROJECT</a>
       </div>
       <!-- /.login-logo -->
       <div class="card">
         <div class="card-body login-card-body">
           @if (session('status'))
+          <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <small><strong>{{ session('status') }}</strong></small>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          @elseif(session('status_register'))
           <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <small><strong>{{ session('status') }}</strong> you can login now </small>
+            <small><strong>{{ session('status_register') }}</strong></small>
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>

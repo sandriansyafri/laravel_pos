@@ -19,9 +19,6 @@ class CreateSettingsTable extends Migration
             $table->string('alamat')->nullable();
             $table->string('no_hp')->nullable();
             $table->string('no_telp')->nullable();
-            $table->string('logo_path');
-            $table->string('kartu_member_path');
-            $table->tinyInteger('tipe_nota');
             $table->timestamps();
         });
     }

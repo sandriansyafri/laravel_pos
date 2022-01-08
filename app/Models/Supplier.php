@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Supplier extends Model
 {
     use HasFactory;
+    protected $guarded = ['id'];
+
+    public function pembelians()
+    {
+        return $this->hasMany(Pembelian::class, 'supplier_id', 'id');
+    }
 }

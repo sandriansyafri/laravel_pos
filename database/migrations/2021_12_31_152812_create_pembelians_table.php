@@ -15,7 +15,7 @@ class CreatePembeliansTable extends Migration
     {
         Schema::create('pembelians', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('supplier_id')->constrained('pembelians')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreignId('supplier_id')->constrained('suppliers')->cascadeOnUpdate()->cascadeOnDelete();
             $table->integer('total_item');
             $table->integer('total_harga');
             $table->integer('diskon')->default(0);

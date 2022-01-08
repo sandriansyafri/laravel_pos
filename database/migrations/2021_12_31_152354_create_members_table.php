@@ -17,9 +17,9 @@ class CreateMembersTable extends Migration
             $table->id();
             $table->string('kode_member')->unique();
             $table->string('nama_member');
-            $table->string('alamat');
-            $table->string('no_telp');
-            $table->string('no_hp');
+            $table->string('alamat')->nullable();
+            $table->string('no_telp')->nullable();
+            $table->string('no_hp')->nullable();
             $table->timestamps();
         });
     }

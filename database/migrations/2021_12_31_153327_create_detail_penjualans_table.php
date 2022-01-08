@@ -19,7 +19,6 @@ class CreateDetailPenjualansTable extends Migration
             $table->foreignId('produk_id')->constrained('produks')->cascadeOnUpdate()->cascadeOnDelete();
             $table->integer('harga_jual');
             $table->integer('jumlah');
-            $table->integer('diskon');
             $table->integer('subtotal');
             $table->timestamps();
         });

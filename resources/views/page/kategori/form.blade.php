@@ -12,7 +12,7 @@
                               <span aria-hidden="true">&times;</span>
                           </button>
                       </div>
-                      <form action="" method="post">
+                      <form id="form-kategori" action="" method="post">
                           @csrf
                           <input  name="_method" value="post" type="hidden">
                           <div class="modal-body">
@@ -29,7 +29,10 @@
                               </div>
                           </div>
                           <div class="modal-footer">
-                              <button onclick="submitForm(event)" id="btn-submit" type="button" class="btn btn-primary btn-block">
+                              {{-- <button onclick="submitForm(event)" id="btn-submit" type="button" class="btn btn-primary btn-block">
+                                  Save changes
+                              </button> --}}
+                              <button type="submit" id="btn-submit" type="button" class="btn btn-primary btn-block">
                                   Save changes
                               </button>
                           </div>
